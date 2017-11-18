@@ -1,0 +1,70 @@
+---
+title: "assignement3"
+author: "Natalia Kalashnikova"
+date: "17 11 2017"
+output: html_document
+---
+##http://www.linguist.univ-paris-diderot.fr/~edunbar/stats_m2/assignments/assignment_3.pdf
+
+# EXERCICE 1
+
+```{r}
+`%>%` <- magrittr::`%>%`
+```
+
+# Task A
+```{r}
+dplyr::count(stress_shift_3dict)
+dict_data <- stressshift::stress_shift_unamb
+stress_shift_3dict <- dplyr::filter(dict_data, Dict %in% c("C1687","J1917","W1802"))
+
+
+```
+# Task B
+
+```{r}
+dict_data <- stressshift::stress_shift_unamb
+stress_shift_3dict_using_pipe <- dict_data %>% 
+  dplyr::filter(Dict %in% c("C1687","J1917","W1802"))
+dplyr::count(stress_shift_3dict_using_pipe)
+identical(stress_shift_3dict, stress_shift_3dict_using_pipe) 
+
+```
+# Task C
+
+```{r}
+
+stress_shift_3dict_nouns <- dplyr::filter(stress_shift_3dict, Category == "Noun")
+stress_shift_3dict_verbs <- dplyr::filter(stress_shift_3dict, Category == "Verb")
+stress_shift_3dict_using_bind_reversed <- dplyr::bind_rows(stress_shift_3dict_verbs, stress_shift_3dict_nouns)
+stress_shift_3dict_using_bind_reversed
+```
+# Task D
+
+```{r}
+dict_data <- stressshift::stress_shift_unamb
+task_D_step_one <- dplyr::filter(dict_data, Dict %in% c("B1700","J1755","L1763"))
+nouns_step_one <- dplyr::filter(task_D_step_one, Category == "Noun")
+nouns_step_two <- dplyr::select(nouns_step_one, c(Word, Dict, Syllable)) 
+stress_shift_nouns_renamed <- dplyr::rename(nouns_step_two, Syllable_Noun = Syllable)
+
+verbs_step_one <- dplyr::filter(task_D_step_one, Category == "Verb")
+verbs_step_two <- dplyr::select(verbs_step_one, c(Word, Dict, Syllable))
+stress_shift_verbs_renamed <- dplyr::rename(nouns_step_two, Syllable_Verb = Syllable)
+stress_shift_wide <- dplyr::bind_rows(stress_shift_nouns_renamed, stress_shift_verbs_renamed)
+stress_shift_wide
+
+```
+
+# Task E
+
+```{r}
+ggplot2::ggplot(stressshift::stress_shift_unamb,
+                ggplot2::aes(x=Category, fill=Syllable)) +
+  ggplot2::geom_bar(position="dodge", colour="black") + 
+  ggplot2::scale_fill_brewer(palette="Set3")
+```
+
+
+
+

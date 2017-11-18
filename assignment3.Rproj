@@ -1,0 +1,37 @@
+---
+title: "assignement3"
+author: "Natalia Kalashnikova"
+date: "17 11 2017"
+output: html_document
+---
+##http://www.linguist.univ-paris-diderot.fr/~edunbar/stats_m2/assignments/assignment_3.pdf
+
+# EXERCICE 1
+
+```{r}
+`%>%` <- magrittr::`%>%`
+```
+
+# Task A
+```{r}
+
+dict_data <- stressshift::stress_shift
+dict_data <- dplyr::filter(dict_data, Dict == "C1687", == "J1917", == "W1802")
+stress_shift_3dict
+
+```
+# Task B
+
+```{r}
+dict_data <- stressshift::stress_shift
+dict_data %>% 
+  filter(Dict %>% (J1917)) %>%
+print
+```
+
+# Task C
+
+stress_shift_3dict_using_pipe
+identical(stress_shift_3dict, stress_shift_3dict_using_pipe) <- TRUE
+
+
